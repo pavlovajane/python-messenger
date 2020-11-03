@@ -1,5 +1,6 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, jsonify, send_from_directory
+import os
 
 app = Flask(__name__)
 
@@ -10,8 +11,7 @@ def current_time():
     current_time = time.strftime("%H:%M:%S", t)
     return current_time
 
-import os
-from flask import send_from_directory
+
 
 @app.route('/static/favicon.ico')
 def favicon():
@@ -22,14 +22,15 @@ def favicon():
 def hello():
     return render_template('index.html')
 
-
-@app.route("/stats")
-def statгs():
-    return {
+status = {
         'status': True,
         'name': 'Hallochen',
         'time': current_time()
-    }
+            }
+
+@app.route("/stats")
+def stats():
+    return jsonify(status)
 
 
 app.run()
